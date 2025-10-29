@@ -59,7 +59,7 @@
         <button type="submit" class="register-btn">S'inscrire</button>
 
         <p class="login-msg">
-          Déjà un compte ? <a href="#">Se connecter</a>
+          Déjà un compte ? <a href="#" @click="goToLogin">Se connecter</a>
         </p>
       </form>
     </div>
@@ -68,6 +68,11 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+  const router = useRouter()
+  
+
+  const goToLogin = () => router.push('/')
 
 const name = ref('')
 const surname = ref('')

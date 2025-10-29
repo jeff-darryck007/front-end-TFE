@@ -1,3 +1,4 @@
+
 <template>
   <div class="login-container">
     <div class="login-box">
@@ -17,9 +18,9 @@
         <div class="input-group">
           <i class="fas fa-user"></i>
           <input
-              type="text"
-              v-model="username"
-              placeholder="Nom d'utilisateur"
+              type="email"
+              v-model="email"
+              placeholder="Email"
               required
           />
         </div>
@@ -39,26 +40,41 @@
           <a href="#" class="forgot">Mot de passe oublié ?</a>
         </div>
 
-        <button type="submit" class="login-btn">Se connecter</button>
+        <button type="submit" class="login-btn" >Se connecter</button>
 
         <p class="register-msg">
-          Pas encore inscrit ? <a href="#">Créer un compte</a>
+          Pas encore inscrit ? <a href="#" @click="goToRegister">Créer un compte</a>
         </p>
-      </form>
+      </form> 
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+  import { ref } from "vue";
+  import { loginUser } from "@/controller/controllerLogin.js";
+  import { useRouter } from 'vue-router'
+  const router = useRouter()
+  
 
-const username = ref('')
-const password = ref('')
-const rememberMe = ref(false)
+  const goToRegister = () => router.push('/register')
 
-const handleLogin = () => {
-  alert(`Bienvenue sur Partage Gratuit, ${username.value || 'cher utilisateur'} 🤍`)
-}
+  const email = ref("");
+  const password = ref("");
+  const rememberMe = ref(false);
+
+  const handleLogin = async () => {
+    try {
+      const data = await loginUser(email.value, password.value);
+      console.log("Connexion réussie :", data);
+
+      // Exemple : redirection ou stockage
+      localStorage.setItem("token", data.token);
+      router.push("/dashboard"); 
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
 </script>
 
 <style scoped>
