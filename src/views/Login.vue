@@ -1,11 +1,11 @@
-
 <template>
+  <Navbar />
   <div class="login-container">
     <div class="login-box">
       <div class="avatar animate-pop">
         <img
-            src="https://cdn-icons-png.flaticon.com/512/847/847969.png"
-            alt="User avatar"
+          src="https://cdn-icons-png.flaticon.com/512/847/847969.png"
+          alt="User avatar"
         />
       </div>
 
@@ -17,64 +17,64 @@
       <form @submit.prevent="handleLogin" class="fade-in-delay2">
         <div class="input-group">
           <i class="fas fa-user"></i>
-          <input
-              type="email"
-              v-model="email"
-              placeholder="Email"
-              required
-          />
+          <input type="email" v-model="email" placeholder="Email" required />
         </div>
 
         <div class="input-group">
           <i class="fas fa-lock"></i>
           <input
-              type="password"
-              v-model="password"
-              placeholder="Mot de passe"
-              required
+            type="password"
+            v-model="password"
+            placeholder="Mot de passe"
+            required
           />
         </div>
 
         <div class="options">
-          <label><input type="checkbox" v-model="rememberMe" /> Se souvenir de moi</label>
-          <a href="#" class="forgot">Mot de passe oublié ?</a>
+          <label>
+            <input type="checkbox" v-model="rememberMe" />
+            Se souvenir de moi
+          </label>
+          <a class="forgot" @click="goForgot">Mot de passe oublié ?</a>
         </div>
 
-        <button type="submit" class="login-btn" >Se connecter</button>
+        <button type="submit" class="login-btn">Se connecter</button>
 
         <p class="register-msg">
-          Pas encore inscrit ? <a href="#" @click="goToRegister">Créer un compte</a>
+          Pas encore inscrit ?
+          <a @click="goToRegister">Créer un compte</a>
         </p>
-      </form> 
+      </form>
     </div>
   </div>
+  <Footer />
 </template>
 
 <script setup>
-  import { ref } from "vue";
-  import { loginUser } from "@/controller/controllerLogin.js";
-  import { useRouter } from 'vue-router'
-  const router = useRouter()
-  
+import Navbar from "./Navbar.vue";
+import Footer from "./Footer.vue";
+import { ref } from "vue";
+import { loginUser } from "@/controller/controllerLogin.js";
+import { useRouter } from "vue-router";
 
-  const goToRegister = () => router.push('/register')
+const router = useRouter();
 
-  const email = ref("");
-  const password = ref("");
-  const rememberMe = ref(false);
+const goToRegister = () => router.push("/register");
+const goForgot = () => router.push("/forgot-password");
 
-  const handleLogin = async () => {
-    try {
-      const data = await loginUser(email.value, password.value);
-      console.log("Connexion réussie :", data);
+const email = ref("");
+const password = ref("");
+const rememberMe = ref(false);
 
-      // Exemple : redirection ou stockage
-      localStorage.setItem("token", data.token);
-      router.push("/dashboard"); 
-    } catch (error) {
-      console.error(error.message);
-    }
-  };
+const handleLogin = async () => {
+  try {
+    const data = await loginUser(email.value, password.value);
+    localStorage.setItem("token", data.token);
+    router.push("/dashboard");
+  } catch (error) {
+    console.error(error.message);
+  }
+};
 </script>
 
 <style scoped>
@@ -84,74 +84,62 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #3a3a3a, #2c2c2c, #4a4a4a);
-  background-size: 300% 300%;
-  animation: gradientMove 10s ease infinite;
+  background: #ffffff;
   padding: 20px;
-  box-sizing: border-box;
 }
 
-/* --- Bloc principal --- */
+/* --- Bloc login --- */
 .login-box {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(14px);
-  border-radius: 15px;
-  padding: 40px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  padding: 60px;
   width: 100%;
-  max-width: 380px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  max-width: 650px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
   text-align: center;
-  color: #f5f5f5;
-  animation: fadeIn 1s ease forwards;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.login-box:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6);
+  color: #000;
+  transition: all 0.3s ease;
 }
 
 /* --- Avatar --- */
 .avatar img {
-  width: 85px;
-  height: 85px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
-  margin-bottom: 20px;
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  margin-bottom: 30px;
+  border: 2px solid #000;
+  object-fit: cover;
+  transition: all 0.3s ease;
 }
 
-/* --- Titre et texte --- */
+/* --- Titres --- */
 .site-title {
-  font-size: 1.9em;
-  margin-bottom: 10px;
-  color: #ffffff;
+  font-size: 2.8em;
+  margin-bottom: 20px;
   font-weight: 700;
 }
-
 .welcome-msg {
-  font-size: 15px;
-  margin-bottom: 25px;
-  color: #e0e0e0;
+  font-size: 18px;
+  margin-bottom: 35px;
 }
 
-/* --- Champs de saisie --- */
+/* --- Champs --- */
 .input-group {
+  border: 1px solid #000;
   display: flex;
   align-items: center;
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 6px;
-  margin: 12px 0;
-  padding: 10px;
-  transition: background 0.3s ease;
-}
-
-.input-group:focus-within {
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  margin: 18px 0;
+  padding: 16px;
+  transition: all 0.3s ease;
 }
 
 .input-group i {
-  margin-right: 10px;
-  color: #9e9e9e;
+  margin-right: 12px;
+  color: #f1b800;
+  font-size: 18px;
 }
 
 .input-group input {
@@ -159,151 +147,115 @@
   border: none;
   background: transparent;
   outline: none;
-  color: #fff;
-  font-size: 14px;
+  font-size: 18px;
 }
 
 /* --- Options --- */
 .options {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  font-size: 13px;
-  margin: 15px 0 25px 0;
-  flex-wrap: wrap;
-  gap: 10px;
-  color: #bdbdbd;
+  margin: 20px 0 30px;
 }
-
 .forgot {
-  color: #90caf9;
-  text-decoration: none;
-  transition: color 0.3s;
+  color: #002a66;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
 }
 
-.forgot:hover {
-  color: #42a5f5;
-}
-
-/* --- Bouton --- */
+/* --- Boutons --- */
 .login-btn {
   width: 100%;
-  padding: 12px;
-  border: none;
-  border-radius: 8px;
-  background: linear-gradient(90deg, #42a5f5, #1e88e5);
-  color: #fff;
-  cursor: pointer;
+  padding: 16px;
+  border-radius: 12px;
+  background: #f1b800;
+  color: #000;
   font-weight: bold;
-  font-size: 15px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  font-size: 18px;
+  cursor: pointer;
 }
 
-.login-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 20px rgba(33, 150, 243, 0.5);
-}
-
-/* --- Lien d'inscription --- */
+/* --- Inscription --- */
 .register-msg {
-  margin-top: 20px;
-  font-size: 13px;
-  color: #bdbdbd;
+  margin-top: 30px;
+  font-size: 16px;
 }
-
 .register-msg a {
-  color: #90caf9;
-  text-decoration: none;
-  font-weight: 600;
-}
-
-.register-msg a:hover {
-  text-decoration: underline;
-}
-
-/* --- Animations --- */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes gradientMove {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-/* Animation personnalisée pour avatar */
-.animate-pop {
-  animation: pop 0.8s ease;
-}
-@keyframes pop {
-  0% {
-    transform: scale(0.5);
-    opacity: 0;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-.fade-in {
-  animation: fadeIn 1s ease forwards;
-}
-.fade-in-delay {
-  animation: fadeIn 1.3s ease forwards;
-}
-.fade-in-delay2 {
-  animation: fadeIn 1.6s ease forwards;
+  color: #f1b800;
+  cursor: pointer;
+  font-weight: 700;
 }
 
 /* --- Responsive --- */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .login-box {
-    max-width: 340px;
-    padding: 30px;
+    max-width: 500px;
+    padding: 50px;
+  }
+  .avatar img {
+    width: 100px;
+    height: 100px;
   }
   .site-title {
-    font-size: 1.7em;
+    font-size: 2.4em;
+  }
+  .welcome-msg {
+    font-size: 16px;
+  }
+  .input-group input {
+    font-size: 16px;
+  }
+  .login-btn {
+    font-size: 16px;
+    padding: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .login-box {
+    max-width: 400px;
+    padding: 40px;
+  }
+  .avatar img {
+    width: 90px;
+    height: 90px;
+  }
+  .site-title {
+    font-size: 2em;
+  }
+  .welcome-msg {
+    font-size: 15px;
+  }
+  .input-group input {
+    font-size: 15px;
+  }
+  .login-btn {
+    font-size: 15px;
+    padding: 12px;
   }
 }
 
 @media (max-width: 480px) {
   .login-box {
-    padding: 25px;
-    max-width: 300px;
+    width: 90%;
+    padding: 30px;
   }
-
   .avatar img {
-    width: 70px;
-    height: 70px;
+    width: 80px;
+    height: 80px;
   }
-
+  .site-title {
+    font-size: 1.8em;
+  }
+  .welcome-msg {
+    font-size: 14px;
+  }
   .input-group input {
-    font-size: 13px;
+    font-size: 14px;
   }
-
-  .options {
-    font-size: 12px;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
   .login-btn {
     font-size: 14px;
+    padding: 10px;
   }
 }
 </style>

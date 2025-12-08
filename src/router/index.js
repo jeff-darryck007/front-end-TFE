@@ -1,10 +1,10 @@
-// src/router/index.js
 import { createRouter, createWebHistory } from 'vue-router'
 
 // Tes pages
 import LoginView from '@/views/Login.vue'
 import Register from '@/views/Register.vue'
 import DashboardView from '@/views/DashboardView.vue'
+import ForgotPassword from '@/views/ForgotPassword.vue'
 import NotFound from '@/views/NotFound.vue'
 
 const routes = [
@@ -22,6 +22,11 @@ const routes = [
     path: '/dashboard',
     name: 'dashboard',
     component: DashboardView
+  },
+  {
+    path: '/forgot-password',
+    name: 'forgot-password',
+    component: ForgotPassword
   },
   {
     path: '/:pathMatch(.*)*',

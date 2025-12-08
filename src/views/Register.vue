@@ -1,22 +1,15 @@
 <template>
+  <Navbar />
   <div class="register-container">
     <div class="register-box">
       <div class="avatar animate-pop">
-        <img
-            v-if="previewImage"
-            :src="previewImage"
-            alt="Photo de profil"
-        />
-        <img
-            v-else
-            src="https://cdn-icons-png.flaticon.com/512/847/847969.png"
-            alt="Avatar par défaut"
-        />
+        <img v-if="previewImage" :src="previewImage" alt="Photo de profil" />
+        <img v-else src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="Avatar par défaut" />
       </div>
 
       <h2 class="site-title fade-in">Créer un compte</h2>
       <p class="welcome-msg fade-in-delay">
-        Rejoignez la communauté de <strong>Partage Gratuit</strong> 🤍
+        Rejoignez la communauté de <strong>Partage Gratuit</strong> 
       </p>
 
       <form @submit.prevent="handleRegister" class="fade-in-delay2">
@@ -64,15 +57,17 @@
       </form>
     </div>
   </div>
+  <Footer />
 </template>
 
 <script setup>
+import Navbar from "./Navbar.vue";
+import Footer from "./Footer.vue";
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-  const router = useRouter()
-  
 
-  const goToLogin = () => router.push('/')
+const router = useRouter()
+const goToLogin = () => router.push('/')
 
 const name = ref('')
 const surname = ref('')
@@ -93,8 +88,7 @@ const onFileChange = (event) => {
 }
 
 const handleRegister = () => {
-  alert(`Bienvenue ${name.value} ${surname.value} 🤍
-Ton rôle : ${role.value || 'non précisé'}`)
+  alert(`Bienvenue ${name.value} ${surname.value} 🤍\nTon rôle : ${role.value || 'non précisé'}`)
 }
 </script>
 
@@ -105,75 +99,63 @@ Ton rôle : ${role.value || 'non précisé'}`)
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #3a3a3a, #2c2c2c, #4a4a4a);
-  background-size: 300% 300%;
-  animation: gradientMove 10s ease infinite;
+  background: #ffffff;
   padding: 20px;
   box-sizing: border-box;
 }
 
-/* --- Bloc d’inscription --- */
+/* --- Bloc d'inscription --- */
 .register-box {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(14px);
-  border-radius: 15px;
-  padding: 40px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  padding: 60px;
   width: 100%;
-  max-width: 420px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  max-width: 650px; /* plus large que la version initiale */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
   text-align: center;
-  color: #f5f5f5;
-  animation: fadeIn 1s ease forwards;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.register-box:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6);
+  color: #000;
+  transition: all 0.3s ease;
 }
 
 /* --- Avatar --- */
 .avatar img {
-  width: 85px;
-  height: 85px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
-  margin-bottom: 20px;
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  margin-bottom: 30px;
+  border: 2px solid #000;
   object-fit: cover;
+  transition: all 0.3s ease;
 }
 
-/* --- Titre et texte --- */
+/* --- Titre --- */
 .site-title {
-  font-size: 1.9em;
-  margin-bottom: 10px;
-  color: #ffffff;
+  font-size: 2.8em;
+  margin-bottom: 20px;
   font-weight: 700;
 }
-
 .welcome-msg {
-  font-size: 15px;
-  margin-bottom: 25px;
-  color: #e0e0e0;
+  font-size: 18px;
+  margin-bottom: 35px;
 }
 
 /* --- Champs de saisie --- */
 .input-group {
+  border: 1px solid #000;
   display: flex;
   align-items: center;
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 6px;
-  margin: 12px 0;
-  padding: 10px;
-  transition: background 0.3s ease;
-}
-
-.input-group:focus-within {
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  margin: 18px 0;
+  padding: 16px;
+  transition: all 0.3s ease;
 }
 
 .input-group i {
-  margin-right: 10px;
-  color: #9e9e9e;
+  margin-right: 12px;
+  color: #F1B800;
+  font-size: 18px;
 }
 
 .input-group input,
@@ -182,105 +164,38 @@ Ton rôle : ${role.value || 'non précisé'}`)
   border: none;
   background: transparent;
   outline: none;
-  color: #fff;
-  font-size: 14px;
-}
-
-.input-group select option {
   color: #000;
+  font-size: 18px;
 }
 
-/* --- Upload de photo --- */
-.file-upload {
-  justify-content: space-between;
-  cursor: pointer;
-}
-
-.file-label {
-  flex: 1;
-  color: #90caf9;
-  text-align: left;
-  cursor: pointer;
-}
-
-.file-upload input[type='file'] {
-  display: none;
-}
-
-/* --- Bouton --- */
+/* --- Bouton d'inscription --- */
 .register-btn {
   width: 100%;
-  padding: 12px;
+  padding: 16px;
   border: none;
-  border-radius: 8px;
-  background: linear-gradient(90deg, #42a5f5, #1e88e5);
-  color: #fff;
+  border-radius: 12px;
+  background: #F1B800;
+  color: #000;
   cursor: pointer;
   font-weight: bold;
-  font-size: 15px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  font-size: 18px;
+  transition: 0.2s ease;
 }
-
 .register-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 20px rgba(33, 150, 243, 0.5);
+  background: #e0a700;
 }
 
-/* --- Lien de connexion --- */
+/* --- Lien connexion --- */
 .login-msg {
-  margin-top: 20px;
-  font-size: 13px;
-  color: #bdbdbd;
+  margin-top: 30px;
+  font-size: 16px;
 }
-
 .login-msg a {
-  color: #90caf9;
-  text-decoration: none;
-  font-weight: 600;
-}
-
-.login-msg a:hover {
-  text-decoration: underline;
+  color: #F1B800;
+  font-weight: 700;
 }
 
 /* --- Animations --- */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes gradientMove {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-.animate-pop {
-  animation: pop 0.8s ease;
-}
-@keyframes pop {
-  0% {
-    transform: scale(0.5);
-    opacity: 0;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
 .fade-in {
   animation: fadeIn 1s ease forwards;
 }
@@ -291,38 +206,42 @@ Ton rôle : ${role.value || 'non précisé'}`)
   animation: fadeIn 1.6s ease forwards;
 }
 
-/* --- Responsive --- */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pop {
+  0% { transform: scale(0.5); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.animate-pop { animation: pop 0.8s ease; }
+
+/* --- RESPONSIVE --- */
+@media (max-width: 1024px) {
+  .register-box { padding: 50px; }
+  .avatar img { width: 100px; height: 100px; }
+  .site-title { font-size: 2.4em; }
+  .welcome-msg { font-size: 16px; }
+  .input-group input, .input-group select { font-size: 16px; }
+  .register-btn { font-size: 16px; padding: 14px; }
+}
+
 @media (max-width: 768px) {
-  .register-box {
-    max-width: 360px;
-    padding: 30px;
-  }
-  .site-title {
-    font-size: 1.7em;
-  }
+  .register-box { padding: 40px; }
+  .avatar img { width: 90px; height: 90px; }
+  .site-title { font-size: 2em; }
+  .welcome-msg { font-size: 15px; }
+  .input-group input, .input-group select { font-size: 15px; }
+  .register-btn { font-size: 15px; padding: 12px; }
 }
 
 @media (max-width: 480px) {
-  .register-box {
-    padding: 25px;
-    max-width: 300px;
-  }
-
-  .avatar img {
-    width: 70px;
-    height: 70px;
-  }
-
-  .input-group input {
-    font-size: 13px;
-  }
-
-  .input-group select {
-    font-size: 13px;
-  }
-
-  .register-btn {
-    font-size: 14px;
-  }
+  .register-box { padding: 30px; width: 90%; }
+  .avatar img { width: 80px; height: 80px; }
+  .site-title { font-size: 1.8em; }
+  .welcome-msg { font-size: 14px; }
+  .input-group input, .input-group select { font-size: 14px; }
+  .register-btn { font-size: 14px; padding: 10px; }
 }
 </style>
