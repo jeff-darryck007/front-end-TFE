@@ -1,7 +1,9 @@
 <template>
   <Navbar />
+
   <div class="login-container">
     <div class="login-box">
+
       <div class="avatar animate-pop">
         <img
           src="https://cdn-icons-png.flaticon.com/512/847/847969.png"
@@ -11,7 +13,7 @@
 
       <h2 class="site-title fade-in">Partage Gratuit</h2>
       <p class="welcome-msg fade-in-delay">
-        Donnez, et trouvez des objets gratuits près de chez vous 🤍
+        Donnez, et trouvez des objets gratuits près de chez vous 
       </p>
 
       <form @submit.prevent="handleLogin" class="fade-in-delay2">
@@ -31,14 +33,16 @@
         </div>
 
         <div class="options">
-          <label>
+          <label class="remember">
             <input type="checkbox" v-model="rememberMe" />
             Se souvenir de moi
           </label>
           <a class="forgot" @click="goForgot">Mot de passe oublié ?</a>
         </div>
 
-        <button type="submit" class="login-btn">Se connecter</button>
+        <button type="submit" class="login-btn">
+          Se connecter
+        </button>
 
         <p class="register-msg">
           Pas encore inscrit ?
@@ -47,6 +51,7 @@
       </form>
     </div>
   </div>
+
   <Footer />
 </template>
 
@@ -54,55 +59,59 @@
 import Navbar from "./Navbar.vue";
 import Footer from "./Footer.vue";
 import { ref } from "vue";
-import { loginUser } from "@/controller/controllerLogin.js";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
-
-const goToRegister = () => router.push("/register");
-const goForgot = () => router.push("/forgot-password");
 
 const email = ref("");
 const password = ref("");
 const rememberMe = ref(false);
 
-const handleLogin = async () => {
-  try {
-    const data = await loginUser(email.value, password.value);
-    localStorage.setItem("token", data.token);
-    router.push("/dashboard");
-  } catch (error) {
-    console.error(error.message);
-  }
+const goToRegister = () => router.push("/register");
+const goForgot = () => router.push("/forgot-password");
+
+// Connexion automatique sans vérification
+const handleLogin = () => {
+  localStorage.setItem("token", "fake-token");
+  router.push("/");
 };
 </script>
 
 <style scoped>
+/* Fix overflow horizontal */
+:global(html, body) {
+  overflow-x: hidden !important;
+  width: 100%;
+}
+
 /* --- Fond principal --- */
 .login-container {
-  min-height: 100vh;
+  min-height: calc(100vh - 120px);
   display: flex;
   justify-content: center;
   align-items: center;
   background: #ffffff;
   padding: 20px;
+  box-sizing: border-box;
 }
 
-/* --- Bloc login --- */
+/* --- Bloc login (AGRANDI) --- */
 .login-box {
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(12px);
-  border-radius: 20px;
-  padding: 60px;
+  border-radius: 25px;
+
   width: 100%;
-  max-width: 650px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  max-width: 650px;     /* Largeur augmentée */
+  padding: 50px;        /* Padding plus grand */
+
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
   text-align: center;
   color: #000;
-  transition: all 0.3s ease;
+  box-sizing: border-box;
 }
 
-/* --- Avatar --- */
+/* --- Avatar (agrandi) --- */
 .avatar img {
   width: 120px;
   height: 120px;
@@ -110,15 +119,15 @@ const handleLogin = async () => {
   margin-bottom: 30px;
   border: 2px solid #000;
   object-fit: cover;
-  transition: all 0.3s ease;
 }
 
 /* --- Titres --- */
 .site-title {
-  font-size: 2.8em;
-  margin-bottom: 20px;
+  font-size: 2.6em;
+  margin-bottom: 15px;
   font-weight: 700;
 }
+
 .welcome-msg {
   font-size: 18px;
   margin-bottom: 35px;
@@ -129,17 +138,16 @@ const handleLogin = async () => {
   border: 1px solid #000;
   display: flex;
   align-items: center;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 10px;
-  margin: 18px 0;
-  padding: 16px;
-  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 12px;
+  margin: 16px 0;
+  padding: 18px;
 }
 
 .input-group i {
-  margin-right: 12px;
+  margin-right: 14px;
+  font-size: 20px;
   color: #f1b800;
-  font-size: 18px;
 }
 
 .input-group input {
@@ -154,24 +162,30 @@ const handleLogin = async () => {
 .options {
   display: flex;
   justify-content: space-between;
-  margin: 20px 0 30px;
+  font-size: 15px;
+  margin-bottom: 30px;
 }
+
+.remember {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .forgot {
   color: #002a66;
   font-weight: 600;
-  font-size: 15px;
   cursor: pointer;
 }
 
-/* --- Boutons --- */
+/* --- Bouton connexion (agrandi) --- */
 .login-btn {
   width: 100%;
-  padding: 16px;
+  padding: 18px;
   border-radius: 12px;
   background: #f1b800;
-  color: #000;
-  font-weight: bold;
   font-size: 18px;
+  font-weight: bold;
   cursor: pointer;
 }
 
@@ -180,6 +194,7 @@ const handleLogin = async () => {
   margin-top: 30px;
   font-size: 16px;
 }
+
 .register-msg a {
   color: #f1b800;
   cursor: pointer;
@@ -187,20 +202,13 @@ const handleLogin = async () => {
 }
 
 /* --- Responsive --- */
-@media (max-width: 1024px) {
+@media (max-width: 480px) {
   .login-box {
-    max-width: 500px;
-    padding: 50px;
-  }
-  .avatar img {
-    width: 100px;
-    height: 100px;
+    padding: 35px;
+    width: 92%;
   }
   .site-title {
-    font-size: 2.4em;
-  }
-  .welcome-msg {
-    font-size: 16px;
+    font-size: 2em;
   }
   .input-group input {
     font-size: 16px;
@@ -208,54 +216,6 @@ const handleLogin = async () => {
   .login-btn {
     font-size: 16px;
     padding: 14px;
-  }
-}
-
-@media (max-width: 768px) {
-  .login-box {
-    max-width: 400px;
-    padding: 40px;
-  }
-  .avatar img {
-    width: 90px;
-    height: 90px;
-  }
-  .site-title {
-    font-size: 2em;
-  }
-  .welcome-msg {
-    font-size: 15px;
-  }
-  .input-group input {
-    font-size: 15px;
-  }
-  .login-btn {
-    font-size: 15px;
-    padding: 12px;
-  }
-}
-
-@media (max-width: 480px) {
-  .login-box {
-    width: 90%;
-    padding: 30px;
-  }
-  .avatar img {
-    width: 80px;
-    height: 80px;
-  }
-  .site-title {
-    font-size: 1.8em;
-  }
-  .welcome-msg {
-    font-size: 14px;
-  }
-  .input-group input {
-    font-size: 14px;
-  }
-  .login-btn {
-    font-size: 14px;
-    padding: 10px;
   }
 }
 </style>

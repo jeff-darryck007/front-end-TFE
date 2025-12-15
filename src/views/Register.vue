@@ -245,3 +245,4 @@ const handleRegister = () => {
   .register-btn { font-size: 14px; padding: 10px; }
 }
 </style>
+
